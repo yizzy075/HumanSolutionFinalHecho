@@ -1,0 +1,124 @@
+/* ================================================
+   ESTILOS GLOBALES - HumanSolution
+   Sistema de Registro de Usuarios
+   ================================================ */
+
+.root {
+    -fx-font-family: "Segoe UI", "Helvetica", "Arial", sans-serif;
+}
+
+/* ================================================
+   EFECTOS HOVER PARA BOTONES
+   ================================================ */
+
+.button:hover {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 15, 0, 0, 5);
+    -fx-cursor: hand;
+}
+
+.button:pressed {
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+
+/* ================================================
+   EFECTOS PARA TEXTFIELDS
+   ================================================ */
+
+.text-field:focused {
+    -fx-border-color: #667eea;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(102,126,234,0.3), 8, 0, 0, 0);
+}
+
+.text-field:hover {
+    -fx-border-color: #999;
+}
+
+/* ================================================
+   COMBOBOX PERSONALIZADO
+   ================================================ */
+
+.combo-box {
+    -fx-background-color: white;
+}
+
+.combo-box:hover {
+    -fx-border-color: #999;
+}
+
+.combo-box:focused {
+    -fx-border-color: #667eea;
+    -fx-effect: dropshadow(gaussian, rgba(102,126,234,0.3), 8, 0, 0, 0);
+}
+
+/* Lista del ComboBox */
+.combo-box-popup .list-view {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: #ddd;
+    -fx-border-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 3);
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+}
+
+.combo-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #f0f0ff;
+    -fx-text-fill: #667eea;
+}
+
+.combo-box-popup .list-view .list-cell:selected {
+    -fx-background-color: #667eea;
+    -fx-text-fill: white;
+}
+
+/* ================================================
+   SEPARADOR
+   ================================================ */
+
+.separator .line {
+    -fx-border-color: linear-gradient(to right, transparent, #667eea, transparent);
+    -fx-border-width: 1;
+}
+
+/* ================================================
+   INDICADOR DE PROGRESO
+   ================================================ */
+
+.progress-indicator {
+    -fx-progress-color: #667eea;
+}
+
+/* ================================================
+   SCROLLBAR PERSONALIZADO
+   ================================================ */
+
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #667eea;
+    -fx-background-radius: 8;
+}
+
+.scroll-bar .track {
+    -fx-background-color: #f0f0f0;
+    -fx-background-radius: 8;
+}
+
+/* ================================================
+   TRANSICIONES SUAVES
+   ================================================ */
+
+.button,
+.text-field,
+.combo-box {
+    -fx-transition: all 0.3s ease;
+}

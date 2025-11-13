@@ -1,0 +1,146 @@
+<div class="min-h-screen flex items-center justify-center p-4"
+     style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+
+  <div class="w-full max-w-md">
+    <!-- Card Principal -->
+    <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+
+      <!-- Header -->
+      <div class="text-center pt-8 pb-6 px-8">
+        <h1 class="text-3xl font-bold text-indigo-600 mb-1">
+          HumanSolution
+        </h1>
+        <p class="text-gray-600">Sistema de Evaluación de Desempeño</p>
+      </div>
+
+      <!-- Formulario -->
+      <div class="px-8 pb-8">
+        <form [formGroup]="evaluacionForm" (ngSubmit)="onSubmit()">
+
+          <!-- Usuario Evaluado -->
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-semibold mb-2">
+              Usuario Evaluado <span class="text-red-500">*</span>
+            </label>
+            <select
+              formControlName="idUsuario"
+              class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-300 rounded-xl text-gray-700 focus:outline-none focus:border-indigo-500 transition-all"
+              [class.border-red-400]="evaluacionForm.get('idUsuario')?.invalid && evaluacionForm.get('idUsuario')?.touched">
+              <option value="">Seleccione un usuario</option>
+              <option *ngFor="let usuario of usuarios" [value]="usuario.id">
+                {{ usuario.nombre }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Fecha -->
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-semibold mb-2">
+              Fecha de Evaluación <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="date"
+              formControlName="fecha"
+              class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-300 rounded-xl text-gray-700 focus:outline-none focus:border-indigo-500 transition-all"
+              [class.border-red-400]="evaluacionForm.get('fecha')?.invalid && evaluacionForm.get('fecha')?.touched">
+          </div>
+
+          <!-- Calificación -->
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-semibold mb-2">
+              Calificación (1-10) <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="number"
+              formControlName="calificacion"
+              min="1"
+              max="10"
+              placeholder="Ingrese calificación"
+              class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-300 rounded-xl text-gray-700 focus:outline-none focus:border-indigo-500 transition-all"
+              [class.border-red-400]="evaluacionForm.get('calificacion')?.invalid && evaluacionForm.get('calificacion')?.touched">
+
+            <!-- Estrellas -->
+            <div class="flex justify-center gap-1 mt-3"
+                 *ngIf="evaluacionForm.get('calificacion')?.value && evaluacionForm.get('calificacion')?.value >= 1">
+              <span *ngFor="let star of [1,2,3,4,5,6,7,8,9,10]"
+                    class="text-2xl"
+                    [class.text-yellow-400]="star <= (evaluacionForm.get('calificacion')?.value || 0)"
+                    [class.text-gray-300]="star > (evaluacionForm.get('calificacion')?.value || 0)">
+                ★
+              </span>
+            </div>
+          </div>
+
+          <!-- Observaciones -->
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-semibold mb-2">
+              Observaciones <span class="text-red-500">*</span>
+            </label>
+            <textarea
+              formControlName="observacion"
+              rows="3"
+              placeholder="Ingrese sus observaciones (mínimo 5 caracteres, máximo 500)"
+              class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-300 rounded-xl text-gray-700 focus:outline-none focus:border-indigo-500 transition-all resize-none"
+              [class.border-red-400]="evaluacionForm.get('observacion')?.invalid && evaluacionForm.get('observacion')?.touched"></textarea>
+            <div class="text-right mt-1">
+              <span class="text-xs text-gray-500">
+                {{ evaluacionForm.get('observacion')?.value?.length || 0 }} / 500 caracteres
+              </span>
+            </div>
+          </div>
+
+          <!-- Criterios -->
+          <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-semibold mb-2">
+              Criterios de Evaluación
+            </label>
+            <textarea
+              formControlName="criterios"
+              rows="2"
+              placeholder="Ingrese los criterios utilizados para la evaluación"
+              class="w-full px-4 py-3 bg-gray-50 border-2 border-gray-300 rounded-xl text-gray-700 focus:outline-none focus:border-indigo-500 transition-all resize-none"></textarea>
+            <p class="mt-1 text-xs text-gray-500 italic">
+              Opcional: Especifica los criterios utilizados
+            </p>
+          </div>
+
+          <!-- Mensajes -->
+          <div *ngIf="errorMessage"
+               class="mb-4 bg-red-50 border-l-4 border-red-500 rounded p-3">
+            <p class="text-red-700 text-sm font-medium">{{ errorMessage }}</p>
+          </div>
+
+          <div *ngIf="successMessage"
+               class="mb-4 bg-green-50 border-l-4 border-green-500 rounded p-3">
+            <p class="text-green-700 text-sm font-medium">{{ successMessage }}</p>
+          </div>
+
+          <!-- Botones -->
+          <div class="flex gap-3">
+            <button
+              type="submit"
+              [disabled]="evaluacionForm.invalid || isSubmitting"
+              class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold py-3 rounded-xl hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg">
+              <span *ngIf="!isSubmitting">Registrar Evaluación</span>
+              <span *ngIf="isSubmitting">Guardando...</span>
+            </button>
+
+            <button
+              type="button"
+              (click)="onReset()"
+              class="flex-1 bg-gray-600 text-white font-bold py-3 rounded-xl hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all shadow-lg">
+              Limpiar
+            </button>
+          </div>
+
+          <!-- Nota -->
+          <div class="mt-4 text-center">
+            <p class="text-xs text-gray-600">
+              <span class="text-red-500">*</span> Campos obligatorios
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

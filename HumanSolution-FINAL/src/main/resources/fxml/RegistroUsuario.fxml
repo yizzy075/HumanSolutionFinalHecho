@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.uco.HumanSolution.controller.RegistroUsuarioController"
+            style="-fx-background-color: linear-gradient(to bottom, #667eea 0%, #764ba2 100%);">
+
+    <center>
+        <VBox fx:id="contenedorFormulario" alignment="CENTER" spacing="20"
+              style="-fx-background-color: white; -fx-background-radius: 15;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 20, 0, 0, 5);"
+              maxWidth="600" maxHeight="750">
+
+            <padding>
+                <Insets top="40" right="50" bottom="40" left="50"/>
+            </padding>
+
+            <!-- Encabezado -->
+            <VBox alignment="CENTER" spacing="10">
+                <Label text="HumanSolution"
+                       style="-fx-font-size: 32px; -fx-font-weight: bold;
+                              -fx-text-fill: #667eea;">
+                    <font>
+                        <Font name="System Bold" size="32"/>
+                    </font>
+                </Label>
+                <Label text="Sistema de Registro de Usuarios"
+                       style="-fx-font-size: 14px; -fx-text-fill: #666;">
+                    <font>
+                        <Font size="14"/>
+                    </font>
+                </Label>
+                <Separator prefWidth="200"/>
+            </VBox>
+
+            <!-- Formulario -->
+            <VBox spacing="15" style="-fx-padding: 20 0 0 0;">
+
+                <!-- Nombre -->
+                <VBox spacing="5">
+                    <Label text="Nombre *"
+                           style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333;">
+                        <font>
+                            <Font name="System Bold" size="14"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="txtNombre" promptText="Ingrese el nombre"
+                               style="-fx-font-size: 14px; -fx-padding: 12; -fx-background-radius: 8;
+                                      -fx-border-radius: 8; -fx-border-color: #ddd; -fx-border-width: 2;">
+                        <font>
+                            <Font size="14"/>
+                        </font>
+                    </TextField>
+                </VBox>
+
+                <!-- Apellido -->
+                <VBox spacing="5">
+                    <Label text="Apellido *"
+                           style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333;">
+                        <font>
+                            <Font name="System Bold" size="14"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="txtApellido" promptText="Ingrese el apellido"
+                               style="-fx-font-size: 14px; -fx-padding: 12; -fx-background-radius: 8;
+                                      -fx-border-radius: 8; -fx-border-color: #ddd; -fx-border-width: 2;">
+                        <font>
+                            <Font size="14"/>
+                        </font>
+                    </TextField>
+                </VBox>
+
+                <!-- Número de Documento -->
+                <VBox spacing="5">
+                    <Label text="Número de Documento *"
+                           style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333;">
+                        <font>
+                            <Font name="System Bold" size="14"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="txtDocumento" promptText="Ingrese el número de documento"
+                               style="-fx-font-size: 14px; -fx-padding: 12; -fx-background-radius: 8;
+                                      -fx-border-radius: 8; -fx-border-color: #ddd; -fx-border-width: 2;">
+                        <font>
+                            <Font size="14"/>
+                        </font>
+                    </TextField>
+                </VBox>
+
+                <!-- Correo Electrónico -->
+                <VBox spacing="5">
+                    <Label text="Correo Electrónico *"
+                           style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333;">
+                        <font>
+                            <Font name="System Bold" size="14"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="txtCorreo" promptText="usuario@ejemplo.com"
+                               style="-fx-font-size: 14px; -fx-padding: 12; -fx-background-radius: 8;
+                                      -fx-border-radius: 8; -fx-border-color: #ddd; -fx-border-width: 2;">
+                        <font>
+                            <Font size="14"/>
+                        </font>
+                    </TextField>
+                </VBox>
+
+                <!-- Rol -->
+                <VBox spacing="5">
+                    <Label text="Rol *"
+                           style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #333;">
+                        <font>
+                            <Font name="System Bold" size="14"/>
+                        </font>
+                    </Label>
+                    <ComboBox fx:id="cmbRol" prefWidth="500" promptText="Seleccione un rol"
+                              style="-fx-font-size: 14px; -fx-background-radius: 8;">
+                    </ComboBox>
+                </VBox>
+
+            </VBox>
+
+            <!-- Mensaje de estado -->
+            <Label fx:id="lblMensaje" wrapText="true" alignment="CENTER"
+                   visible="false"
+                   style="-fx-font-size: 13px; -fx-padding: 10; -fx-background-radius: 5;"
+                   maxWidth="500" minHeight="40">
+                <font>
+                    <Font size="13"/>
+                </font>
+            </Label>
+
+            <!-- Indicador de progreso -->
+            <ProgressIndicator fx:id="progressIndicator" visible="false"
+                               prefWidth="40" prefHeight="40"/>
+
+            <!-- Botones -->
+            <HBox spacing="15" alignment="CENTER" style="-fx-padding: 10 0 0 0;">
+                <Button fx:id="btnRegistrar" text="Registrar Usuario"
+                        style="-fx-font-size: 16px; -fx-padding: 15 40 15 40;
+                               -fx-background-color: linear-gradient(to right, #667eea, #764ba2);
+                               -fx-text-fill: white; -fx-background-radius: 25;
+                               -fx-cursor: hand; -fx-font-weight: bold;
+                               -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 3);">
+                    <onAction>#registrarUsuario</onAction>
+                    <font>
+                        <Font name="System Bold" size="16"/>
+                    </font>
+                </Button>
+
+                <Button fx:id="btnLimpiar" text="Limpiar"
+                        onAction="#limpiarFormulario"
+                        style="-fx-font-size: 16px; -fx-padding: 15 40 15 40;
+                               -fx-background-color: #f0f0f0;
+                               -fx-text-fill: #666; -fx-background-radius: 25;
+                               -fx-cursor: hand; -fx-font-weight: bold;
+                               -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 2);">
+                    <font>
+                        <Font name="System Bold" size="16"/>
+                    </font>
+                </Button>
+            </HBox>
+
+            <!-- Nota -->
+            <Label text="* Campos obligatorios"
+                   style="-fx-font-size: 12px; -fx-text-fill: #999; -fx-font-style: italic;">
+                <font>
+                    <Font size="12"/>
+                </font>
+            </Label>
+
+        </VBox>
+    </center>
+
+</BorderPane>

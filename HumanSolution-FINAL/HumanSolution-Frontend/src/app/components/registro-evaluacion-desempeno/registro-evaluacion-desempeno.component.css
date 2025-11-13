@@ -1,0 +1,39 @@
+/* Transiciones suaves */
+input, select, textarea {
+  transition: all 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Animación para estrellas */
+.text-yellow-400 {
+  filter: drop-shadow(0 0 3px rgba(251, 191, 36, 0.5));
+}
+
+/* Hover para botones */
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.bg-white {
+  animation: fadeIn 0.3s ease-out;
+}

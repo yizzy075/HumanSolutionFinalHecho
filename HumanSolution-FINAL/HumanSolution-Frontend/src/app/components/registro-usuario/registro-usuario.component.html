@@ -1,0 +1,184 @@
+<div class="container">
+  <div class="form-card">
+    <div class="header">
+      <h1>HumanSolution</h1>
+      <p>Sistema de Registro de Usuarios</p>
+    </div>
+
+    <!-- Mensaje de éxito o error -->
+    <div *ngIf="mensaje" class="mensaje" [ngClass]="mensaje.tipo">
+      {{ mensaje.texto }}
+    </div>
+
+    <form [formGroup]="formularioRegistro" (ngSubmit)="registrarUsuario()">
+
+      <!-- Nombre -->
+      <div class="form-group">
+        <label for="nombre">Nombre *</label>
+        <input
+          type="text"
+          id="nombre"
+          formControlName="nombre"
+          [ngClass]="{
+            'invalid': esInvalido('nombre'),
+            'valid': esValido('nombre')
+          }"
+          placeholder="Ingrese el nombre"
+          autocomplete="given-name">
+        <span class="error-message" *ngIf="esInvalido('nombre')">
+          {{ obtenerMensajeError('nombre') }}
+        </span>
+      </div>
+
+      <!-- Apellido -->
+      <div class="form-group">
+        <label for="apellido">Apellido *</label>
+        <input
+          type="text"
+          id="apellido"
+          formControlName="apellido"
+          [ngClass]="{
+            'invalid': esInvalido('apellido'),
+            'valid': esValido('apellido')
+          }"
+          placeholder="Ingrese el apellido"
+          autocomplete="family-name">
+        <span class="error-message" *ngIf="esInvalido('apellido')">
+          {{ obtenerMensajeError('apellido') }}
+        </span>
+      </div>
+
+      <!-- Número de Documento -->
+      <div class="form-group">
+        <label for="numeroDocumento">Número de Documento *</label>
+        <input
+          type="text"
+          id="numeroDocumento"
+          formControlName="numeroDocumento"
+          [ngClass]="{
+            'invalid': esInvalido('numeroDocumento'),
+            'valid': esValido('numeroDocumento')
+          }"
+          placeholder="Ingrese el número de documento"
+          autocomplete="off">
+        <span class="error-message" *ngIf="esInvalido('numeroDocumento')">
+          {{ obtenerMensajeError('numeroDocumento') }}
+        </span>
+      </div>
+
+      <!-- Correo Electrónico -->
+      <div class="form-group">
+        <label for="correo">Correo Electrónico *</label>
+        <input
+          type="email"
+          id="correo"
+          formControlName="correo"
+          [ngClass]="{
+            'invalid': esInvalido('correo'),
+            'valid': esValido('correo')
+          }"
+          placeholder="usuario@ejemplo.com"
+          autocomplete="email">
+        <span class="error-message" *ngIf="esInvalido('correo')">
+          {{ obtenerMensajeError('correo') }}
+        </span>
+      </div>
+
+      <!-- Contraseña -->
+      <div class="form-group">
+        <label for="contrasenia">Contraseña *</label>
+        <div class="password-container">
+          <input
+            [type]="mostrarContrasenia ? 'text' : 'password'"
+            id="contrasenia"
+            formControlName="contrasenia"
+            [ngClass]="{
+              'invalid': esInvalido('contrasenia'),
+              'valid': esValido('contrasenia')
+            }"
+            placeholder="Ingrese su contraseña"
+            autocomplete="new-password">
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="toggleMostrarContrasenia()"
+            tabindex="-1"
+            aria-label="Mostrar/Ocultar contraseña">
+            {{ mostrarContrasenia ? '🙈' : '👁️' }}
+          </button>
+        </div>
+
+        <!-- Mensaje de error general -->
+        <span class="error-message" *ngIf="esInvalido('contrasenia')">
+          {{ obtenerMensajeError('contrasenia') }}
+        </span>
+
+        <!-- Requisitos de contraseña (se muestra cuando el usuario empieza a escribir) -->
+        <div class="password-requirements" *ngIf="formularioRegistro.get('contrasenia')?.dirty || formularioRegistro.get('contrasenia')?.touched">
+          <p class="requirements-title">La contraseña debe cumplir:</p>
+          <ul class="requirements-list">
+            <li [ngClass]="{'requirement-met': cumpleMinCaracteres(), 'requirement-unmet': !cumpleMinCaracteres()}">
+              <span class="requirement-icon">{{ cumpleMinCaracteres() ? '✓' : '✗' }}</span>
+              Mínimo 8 caracteres
+            </li>
+            <li [ngClass]="{'requirement-met': cumpleMayuscula(), 'requirement-unmet': !cumpleMayuscula()}">
+              <span class="requirement-icon">{{ cumpleMayuscula() ? '✓' : '✗' }}</span>
+              Al menos una letra mayúscula
+            </li>
+            <li [ngClass]="{'requirement-met': cumpleMinuscula(), 'requirement-unmet': !cumpleMinuscula()}">
+              <span class="requirement-icon">{{ cumpleMinuscula() ? '✓' : '✗' }}</span>
+              Al menos una letra minúscula
+            </li>
+            <li [ngClass]="{'requirement-met': cumpleNumero(), 'requirement-unmet': !cumpleNumero()}">
+              <span class="requirement-icon">{{ cumpleNumero() ? '✓' : '✗' }}</span>
+              Al menos un número
+            </li>
+            <li [ngClass]="{'requirement-met': cumpleCaracterEspecial(), 'requirement-unmet': !cumpleCaracterEspecial()}">
+              <span class="requirement-icon">{{ cumpleCaracterEspecial() ? '✓' : '✗' }}</span>
+              Al menos un carácter especial (@#$%^&+=!)
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Rol -->
+      <div class="form-group">
+        <label for="rol">Rol *</label>
+        <select
+          id="rol"
+          formControlName="rol"
+          [ngClass]="{
+            'invalid': esInvalido('rol'),
+            'valid': esValido('rol')
+          }">
+          <option value="">Seleccione un rol</option>
+          <option *ngFor="let rol of roles" [value]="rol.id">{{ rol.nombre }}</option>
+        </select>
+        <span class="error-message" *ngIf="esInvalido('rol')">
+          {{ obtenerMensajeError('rol') }}
+        </span>
+      </div>
+
+      <!-- Botones -->
+      <div class="button-group">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="cargando">
+          <span *ngIf="!cargando">Registrar Usuario</span>
+          <span *ngIf="cargando">⏳ Registrando...</span>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="limpiarFormulario()"
+          [disabled]="cargando">
+          Limpiar
+        </button>
+      </div>
+
+      <p class="required-note">* Campos obligatorios</p>
+    </form>
+  </div>
+</div>

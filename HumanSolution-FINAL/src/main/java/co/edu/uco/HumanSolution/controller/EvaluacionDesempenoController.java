@@ -1,9 +1,7 @@
 package co.edu.uco.HumanSolution.controller;
 
 import co.edu.uco.HumanSolution.business.facade.EvaluacionDesempenoFacade;
-import co.edu.uco.HumanSolution.dto.ContratoDTO;
 import co.edu.uco.HumanSolution.dto.EvaluacionDesempenoDTO;
-import co.edu.uco.HumanSolution.dto.UsuarioDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,55 +22,20 @@ public class EvaluacionDesempenoController {
     private static final String MSG_ACTUALIZACION_EXITOSA = "Evaluación de desempeño actualizada exitosamente";
     private static final String MSG_ELIMINACION_EXITOSA = "Evaluación de desempeño eliminada exitosamente";
 
-    // ✅ UUID FIJO del contrato de prueba
-    private static final String CONTRATO_PRUEBA_ID = "9305b373-a81d-483e-b43c-3f5e32851eb1";
-
     private final EvaluacionDesempenoFacade evaluacionDesempenoFacade;
 
     public EvaluacionDesempenoController(EvaluacionDesempenoFacade evaluacionDesempenoFacade) {
         this.evaluacionDesempenoFacade = evaluacionDesempenoFacade;
     }
 
+    /**
+     * ✅ CORRECTO: Controller solo recibe DTO y delega TODO al Facade
+     * El Facade maneja la búsqueda del contrato DENTRO de su transacción
+     */
     @PostMapping
     public ResponseEntity<Map<String, String>> create(@RequestBody EvaluacionDesempenoDTO evaluacionDTO) {
         try {
-            System.out.println("======= DEBUG CONTROLLER - EVALUACION DESEMPENO =======");
-            System.out.println("DTO Recibido: " + evaluacionDTO);
-            if (evaluacionDTO.getUsuario() != null) {
-                System.out.println("Usuario ID: " + evaluacionDTO.getUsuario().getId());
-            }
-            System.out.println("Evaluador: " + evaluacionDTO.getEvaluador());
-            System.out.println("Contrato: " + evaluacionDTO.getContrato());
-            System.out.println("Fecha: " + evaluacionDTO.getFecha());
-            System.out.println("Calificación: " + evaluacionDTO.getCalificacion());
-            System.out.println("Observación: " + evaluacionDTO.getObservacion());
-
-            // ✅ TEMPORAL: Asignar el mismo usuario como evaluador si viene null
-            if (evaluacionDTO.getEvaluador() == null ||
-                    evaluacionDTO.getEvaluador().getId() == null ||
-                    evaluacionDTO.getEvaluador().getId().isBlank()) {
-
-                System.out.println("⚠️ Evaluador null, asignando usuario como evaluador");
-                UsuarioDTO evaluador = new UsuarioDTO();
-                evaluador.setId(evaluacionDTO.getUsuario().getId());
-                evaluacionDTO.setEvaluador(evaluador);
-            }
-
-            // ✅ USAR CONTRATO FIJO DE PRUEBA
-            if (evaluacionDTO.getContrato() == null ||
-                    evaluacionDTO.getContrato().getId() == null ||
-                    evaluacionDTO.getContrato().getId().isBlank()) {
-
-                System.out.println("⚠️ Contrato null, asignando contrato de prueba fijo");
-                ContratoDTO contrato = new ContratoDTO();
-                contrato.setId(CONTRATO_PRUEBA_ID);  // ✅ UUID FIJO
-                evaluacionDTO.setContrato(contrato);
-            }
-
-            System.out.println("✅ Datos corregidos - Evaluador: " + evaluacionDTO.getEvaluador().getId());
-            System.out.println("✅ Datos corregidos - Contrato: " + evaluacionDTO.getContrato().getId());
-            System.out.println("====================================================");
-
+            // ✅ PATRÓN CORRECTO: Solo llamar al Facade, él hace todo
             evaluacionDesempenoFacade.create(evaluacionDTO);
 
             Map<String, String> response = new HashMap<>();
